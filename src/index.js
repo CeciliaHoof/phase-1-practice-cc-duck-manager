@@ -1,6 +1,8 @@
 // write your code here!
 //global variables
 const baseURL = 'http://localhost:3000/ducks'
+let selectedDuck;
+let currLikes;
 
 //DOM selections
 const duckNav = document.querySelector('#duck-nav');
@@ -14,28 +16,25 @@ const duckForm = document.querySelector('#new-duck-form')
 function getDucks(url){
     fetch(url)
         .then(resp => resp.json())
-        .then(ducksArr => {
-            ducksArr.forEach(duckObj => renderNav(duckObj))
-        })
+        .then(ducksArr => renderNav(ducksArr))
     }
 
 //render functions
-function renderNav(duckObj){
-    const duck = document.createElement('img');
-    duck.src = duckObj.img_url;
-    duck.addEventListener('click', () => renderDuckDetail(duckObj))
-    duckNav.appendChild(duck);
+function renderNav(ducksArr){
+    ducksArr.forEach(duckObj => {
+        const duck = document.createElement('img');
+        duck.src = duckObj.img_url;
+        duck.addEventListener('click', () => renderDuckDetail(duckObj));
+        duckNav.appendChild(duck);
+    })
 }
 
 function renderDuckDetail(duckObj){
     duckName.textContent = duckObj.name;
     duckImage.src = duckObj.img_url;
     duckLikes.textContent = `${duckObj.likes} likes`
-    let currLikes = duckObj.likes
-    duckLikes.addEventListener('click', () => {
-        currLikes++;
-        duckLikes.textContent = `${currLikes} likes`;
-    })
+    currLikes = duckObj.likes;
+    selectedDuck = duckObj;
 }
 
 //event listeners and handlers
@@ -48,8 +47,15 @@ function handleSubmit(e){
         img_url : e.target['duck-image-input'].value,
         likes : 0
     }
-    renderNav(newDuck);
+    renderNav([newDuck]);
 }
+
+duckLikes.addEventListener('click', () => {
+    currLikes++;
+    duckLikes.textContent = `${currLikes} likes`;
+    selectedDuck.likes = currLikes;
+    console.log(selectedDuck)
+})
 
 //initializers
 getDucks(baseURL)
