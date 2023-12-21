@@ -54,7 +54,6 @@ duckLikes.addEventListener('click', () => {
     currLikes++;
     duckLikes.textContent = `${currLikes} likes`;
     selectedDuck.likes = currLikes;
-    console.log(selectedDuck)
 })
 
 //initializers
