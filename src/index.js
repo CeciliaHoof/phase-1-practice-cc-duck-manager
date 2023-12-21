@@ -7,7 +7,7 @@ const duckNav = document.querySelector('#duck-nav');
 const duckName = document.querySelector('#duck-display-name');
 const duckImage = document.querySelector('#duck-display-image')
 const duckLikes = document.querySelector('#duck-display-likes')
-console.log(duckName, duckImage, duckLikes)
+
 
 //fetch functions
 function getDucks(url){
@@ -30,9 +30,15 @@ function renderDuckDetail(duckObj){
     duckName.textContent = duckObj.name;
     duckImage.src = duckObj.img_url;
     duckLikes.textContent = `${duckObj.likes} likes`
+    let currLikes = duckObj.likes
+    duckLikes.addEventListener('click', () => {
+        currLikes++;
+        duckLikes.textContent = `${currLikes} likes`;
+    })
 }
 
 //event listeners and handlers
+
 
 //initializers
 getDucks(baseURL)
@@ -43,4 +49,8 @@ in the #duck-nav.
     render duck images to #duck-nav
 2) When a user clicks one of the duck images:
     it shows the duck's name, the image, and a likes button
-    with the number of likes in the #duck-displaylike so:*/
+    with the number of likes in the #duck-display
+ 3) When the likes button is clicked,
+    it increments the number of likes displayed for that duck.
+    Be sure that the button continues to read "X likes".
+*/
