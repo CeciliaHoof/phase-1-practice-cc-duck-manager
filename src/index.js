@@ -5,8 +5,9 @@ const baseURL = 'http://localhost:3000/ducks'
 //DOM selections
 const duckNav = document.querySelector('#duck-nav');
 const duckName = document.querySelector('#duck-display-name');
-const duckImage = document.querySelector('#duck-display-image')
-const duckLikes = document.querySelector('#duck-display-likes')
+const duckImage = document.querySelector('#duck-display-image');
+const duckLikes = document.querySelector('#duck-display-likes');
+const duckForm = document.querySelector('#new-duck-form')
 
 
 //fetch functions
@@ -38,7 +39,17 @@ function renderDuckDetail(duckObj){
 }
 
 //event listeners and handlers
+duckForm.addEventListener('submit', (e) => handleSubmit(e))
 
+function handleSubmit(e){
+    e.preventDefault();
+    const newDuck = {
+        name : e.target['duck-name-input'].value,
+        img_url : e.target['duck-image-input'].value,
+        likes : 0
+    }
+    renderNav(newDuck);
+}
 
 //initializers
 getDucks(baseURL)
@@ -50,7 +61,12 @@ in the #duck-nav.
 2) When a user clicks one of the duck images:
     it shows the duck's name, the image, and a likes button
     with the number of likes in the #duck-display
- 3) When the likes button is clicked,
+3) When the likes button is clicked,
     it increments the number of likes displayed for that duck.
     Be sure that the button continues to read "X likes".
+4) When the #new-duck-form is submitted, 
+    it generates a new duck image in the #duck-nav.
+    When clicked, it acts like the other images in the #duck-nav and shows
+     a name, image, and like button in the #duck-display. 
+     No persistence is needed. A duck starts with 0 likes.
 */
